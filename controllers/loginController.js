@@ -14,17 +14,25 @@ db.users.find({first_name : nameIzForme,password: passIzForme},(err,docs) =>{
     }else {
         if(docs.length === 1){
             //pronađen korisnik
+           
             let user = docs[0];
+            console.log(user);
+            req.session.user = user;
             if(user.role == "admin"){
-                res.redirect("/admin")
-            }else{
+                res.redirect("/admin");
+                
+            }else if(user.role == "operater"){
+                res.redirect("/operater");
+              }else if(user.role == "savjetnik"){
+                res.redirect("/savjetnik");
+              }else{
                 
                 res.redirect("/");
           }
-        }else{
-            //podaci nisu točni
-            res.redirect("/");
-        }
+            }else{
+                //podaci nisu točni
+                res.redirect("/");
+            }
     }
 })
 
